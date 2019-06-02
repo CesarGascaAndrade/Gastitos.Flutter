@@ -8,7 +8,7 @@ class LoginView extends StatelessWidget {
         child: Column(
           children: <Widget>[
             RaisedButton(
-              child: Text('Launch screen'),
+              child: Text('Login screen'),
               onPressed: () {
                 // Navigate to second screen when tapped!
               },
