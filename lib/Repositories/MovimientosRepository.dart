@@ -70,31 +70,35 @@ class MovimientosRepository extends Repository {
 
   Future<List<Map<String, dynamic>>> resumenIngresos() async {
     return await select(
-        fields: [
-          'fechaRegistro',
-          'sum(importe) as importe',
-        ],
-        where: Where([
-          Condition(
-            field: 'fechaRegistro',
-            value:
-                "between datetime('now','-30 days', 'localtime') and datetime('now')",
-          )
-        ]));
+      fields: [
+        "strftime('%Y-%m-%d',fechaRegistro) as fechaRegistro",
+        'sum(importe) * -1 as importe',
+      ],
+      where: Where([
+        Condition(
+          field: 'importe',
+          value:
+              "> 0",
+        )
+      ]),
+      groupFields: ' fechaRegistro, importe',
+    );
   }
 
   Future<List<Map<String, dynamic>>> resumenEgresos() async {
     return await select(
-        fields: [
-          'fechaRegistro',
-          'sum(importe) as importe',
-        ],
-        where: Where([
-          Condition(
-            field: 'fechaRegistro',
-            value:
-                "between datetime('now','-30 days', 'localtime') and datetime('now')",
-          )
-        ]));
+      fields: [
+        "strftime('%Y-%m-%d',fechaRegistro) as fechaRegistro",
+        'sum(importe) * -1 as importe',
+      ],
+      where: Where([
+        Condition(
+          field: 'importe',
+          value:
+              "< 0",
+        )
+      ]),
+      groupFields: ' fechaRegistro, importe',
+    );
   }
 }

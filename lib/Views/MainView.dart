@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gastitos/Models/ToNewMovementViewArgs.dart';
 import 'package:gastitos/Views/balanceView.dart';
 import 'package:gastitos/Views/egresosView.dart';
 import 'package:gastitos/Views/ingresosView.dart';
@@ -11,6 +12,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  int _movementType = 1;
   int _currentIndex = 1;
 
   final List<Widget> tab = [
@@ -21,6 +23,12 @@ class _MainViewState extends State<MainView> {
 
   void onTabTapped(int index) {
     setState(() {
+      if (index == 0) {
+        _movementType = -1;
+      } else {
+        _movementType = 1;
+      }
+
       _currentIndex = index;
     });
   }
@@ -31,6 +39,14 @@ class _MainViewState extends State<MainView> {
       appBar: AppBar(
         leading: Icon(Icons.account_balance_wallet),
         title: Text("Gastitos"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, '/nuevoMovimiento', arguments: ToNewMovementViewArgs(_movementType));
+            },
+          )
+        ],
       ),
       body: showTab(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
@@ -51,31 +67,10 @@ class _MainViewState extends State<MainView> {
           )
         ],
       ),
-      /*floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(context, '/nuevoMovimiento');
-        },
-      ),*/
     );
   }
 
   Widget showTab(int index) {
     return tab[index];
-      /*switch (index) {
-      case 0:
-        return new EgresosView();
-        break; 
-      case 1:
-        return new BalanceView();
-        break;
-      case 2:
-        return new IngresosView();
-        break;
-      default:
-        return Center(
-          child: Text('No tab found'),
-        );
-    }*/
   }
 }

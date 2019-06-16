@@ -27,32 +27,38 @@ class DateTimeComboLinePointChart extends StatelessWidget {
     );
   }
 
+  
+
+  factory DateTimeComboLinePointChart.withListData(
+      List<Map<String, dynamic>> data) {
+    return new DateTimeComboLinePointChart(_fromList(data), animate: true);
+  }
+
+
   static List<charts.Series<TimeSeriesSales, DateTime>> _fromList(
       List<Map<String, dynamic>> movimientos) {
     final List<TimeSeriesSales> data = [];
     if (movimientos != null) {
       movimientos.forEach((movimiento) {
+        print(movimiento);
         if (movimiento['importe'] != null) {
           double importe = movimiento['importe'];
-          data.add(new TimeSeriesSales(
-              DateTime.parse(movimiento['fechaRegistro']), importe.round()));
+
+          DateTime movementDate = DateTime.parse(movimiento['fechaRegistro']);
+          
+          data.add(new TimeSeriesSales(movementDate, importe.round()));
         }
-      });
+      }); 
     }
 
     return [
       new charts.Series<TimeSeriesSales, DateTime>(
-        id: 'Cost',
+        id: 'Egresos',
         domainFn: (TimeSeriesSales row, _) => row.time,
         measureFn: (TimeSeriesSales row, _) => row.sales,
         data: data,
       )
     ];
-  }
-
-  factory DateTimeComboLinePointChart.withListData(
-      List<Map<String, dynamic>> data) {
-    return new DateTimeComboLinePointChart(_fromList(data), animate: true);
   }
 
   @override

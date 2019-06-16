@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:gastitos/Models/Movimiento.dart';
+import 'package:gastitos/Models/ToNewMovementViewArgs.dart';
 import 'package:gastitos/ViewModels/MovimientosViewModel.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -25,6 +26,8 @@ class _MovimientoFormState extends State {
   initState() {
     super.initState();
     fechaInput.text = _fecha.toIso8601String().substring(0, 10);
+
+    //initMovementTypeState(context);
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -45,9 +48,25 @@ class _MovimientoFormState extends State {
 
   @override
   Widget build(BuildContext context) {
+    ToNewMovementViewArgs args = ModalRoute.of(context).settings.arguments;
+
+    String _movementLabel = (args.movementType > 0) ? 'ingreso' : 'egreso';
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nuevo movimiento'),
+        title: Text('Nuevo $_movementLabel'),
+        actions: <Widget>[
+          Switch(
+            value: args.movementType > 0,
+            onChanged: (bool value) {
+              setState(() {
+                args.movementType = args.movementType * -1;
+              });
+            },
+            activeColor: Colors.green,
+            inactiveThumbColor: Colors.red,
+          )
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(15.0),
@@ -113,11 +132,14 @@ class _MovimientoFormState extends State {
                                 ),
                               );
 
-                              viewModel.saveMovimiento(new Movimiento(
+                              viewModel
+                                  .saveMovimiento(new Movimiento(
                                 concepto: conceptoInput.text,
-                                importe: double.parse(importeInput.text),
+                                importe: double.parse(importeInput.text) *
+                                    args.movementType,
                                 fechaRegistro: _fecha.toIso8601String(),
-                              )).then((value) {
+                              ))
+                                  .then((value) {
                                 Navigator.pop(context);
                               });
                             }

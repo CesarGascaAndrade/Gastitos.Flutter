@@ -40,14 +40,9 @@ class BalanceView extends StatelessWidget {
                 child: SizedBox(
                   height: 200,
                   child: new DateTimeComboLinePointChart.withListData(viewModel.listEgresos)
+                  //child: new DateTimeComboLinePointChart.withSampleData()
                 ),
               ),
-              FlatButton(
-                child: Text('Nuevo movimiento'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/nuevoMovimiento');
-                },
-              )
             ],
           );
         },

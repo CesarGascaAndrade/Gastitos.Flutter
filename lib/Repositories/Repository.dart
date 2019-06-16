@@ -46,8 +46,11 @@ class Repository {
     return theDb;
   }
 
-  Future<List<Map<String, dynamic>>> select(
-      {List<String> fields = const [], Where where}) async {
+  Future<List<Map<String, dynamic>>> select({
+    List<String> fields = const [],
+    Where where,
+    String groupFields
+  }) async {
     var dbClient = await db;
 
     String queryFields = '';
@@ -59,13 +62,20 @@ class Repository {
         queryFields += "$comma $field";
         comma = ',';
       });
-    }
-    else {
+    } else {
       queryFields = '*';
     }
 
-    String q = 'SELECT $queryFields FROM $tableName where $conditions';
+    String q = 'SELECT $queryFields FROM $tableName';
 
+    if (conditions.length > 0) {
+      q += ' where $conditions';
+    }
+
+    if(groupFields != null) {
+      q += ' GROUP BY $groupFields';
+    }
+    
     List<Map<String, dynamic>> list = await dbClient.rawQuery(q);
 
     return list;
@@ -116,7 +126,7 @@ class Repository {
 
     String q = "delete from $tableName where $conditions";
     print(q);
-    await dbClient.delete(tableName,where:conditions);
+    await dbClient.delete(tableName, where: conditions);
   }
 
   String _getConditions(Where where) {
@@ -129,8 +139,8 @@ class Repository {
               ' ${condition.conjunctiveOperator} ${condition.field} ${condition.value}';
         });
       }
-    } 
-    
+    }
+
     return conditions;
   }
 }
