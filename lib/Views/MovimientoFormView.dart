@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gastitos/Models/Movimiento.dart';
 import 'package:gastitos/Models/ToNewMovementViewArgs.dart';
 import 'package:gastitos/ViewModels/MovimientosViewModel.dart';
+import 'package:gastitos/Views/widgets/crossPlatformAppBar.dart';
+import 'package:gastitos/Views/widgets/crossPlatformScaffold.dart';
+import 'package:gastitos/mPlatform.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MovimientoFormView extends StatefulWidget {
@@ -51,22 +55,20 @@ class _MovimientoFormState extends State {
     ToNewMovementViewArgs args = ModalRoute.of(context).settings.arguments;
 
     String _movementLabel = (args.movementType > 0) ? 'ingreso' : 'egreso';
-    
-    return Scaffold(
-      appBar: AppBar(
+
+    return crossPlatformScaffold(
+      appBar: crossPlatformAppBar(
         title: Text('Nuevo $_movementLabel'),
-        actions: <Widget>[
-          Switch(
-            value: args.movementType > 0,
-            onChanged: (bool value) {
-              setState(() {
-                args.movementType = args.movementType * -1;
-              });
-            },
-            activeColor: Colors.green,
-            inactiveThumbColor: Colors.red,
-          )
-        ],
+        action: crossPlatformSwitch(
+          value: args.movementType > 0,
+          onChanged: (bool value) {
+            setState(() {
+              args.movementType = args.movementType * -1;
+            });
+          },
+          //activeColor: Colors.green,
+          //inactiveThumbColor: Colors.red,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(15.0),
@@ -77,23 +79,26 @@ class _MovimientoFormState extends State {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+
                   GestureDetector(
                     onTap: () {
                       _selectDate(context);
                     },
                     behavior: HitTestBehavior.opaque,
-                    child: TextFormField(
-                      controller: fechaInput,
-                      enabled: false,
+                    child: CupertinoDatePicker(onDateTimeChanged: (DateTime value) {},
+                      /*controller: fechaInput,
+                      enabled: false, */
                       //keyboardType: TextInputType.datetime,
+                      /*
                       decoration: InputDecoration(labelText: 'Fecha'),
                       validator: (value) {
                         if (value.isEmpty) {
                           return '¿Cuándo fué?';
                         }
-                      },
+                      },*/
                     ),
                   ),
+                  /*
                   TextFormField(
                     controller: conceptoInput,
                     decoration: InputDecoration(labelText: 'Concepto'),
@@ -148,12 +153,28 @@ class _MovimientoFormState extends State {
                       },
                     ),
                   ),
+                  */
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+Widget crossPlatformSwitch({bool value, Function onChanged}) {
+  if (Platform.isIOS) {
+    return CupertinoSwitch(
+      value: value,
+      onChanged: onChanged,
+    );
+  }
+  else {
+    return Switch(
+      value: value,
+      onChanged: onChanged,
     );
   }
 }

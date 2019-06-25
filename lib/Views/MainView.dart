@@ -1,3 +1,11 @@
+//import 'dart:io';
+import 'package:gastitos/Views/widgets/crossPlatformAppBar.dart';
+import 'package:gastitos/Views/widgets/crossPlatformIconButton.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gastitos/Views/widgets/crossPlatformScaffold.dart';
+import 'package:gastitos/mPlatform.dart';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gastitos/Models/ToNewMovementViewArgs.dart';
 import 'package:gastitos/Views/balanceView.dart';
@@ -13,13 +21,32 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int _movementType = 1;
-  int _currentIndex = 1;
+  int _currentIndex = 0;
 
   final List<Widget> tab = [
     new EgresosView(),
-    new BalanceView(),
-    new IngresosView(),
+    new Container(
+      child: Center(
+        child: Text('EgresosView'),
+      ),
+    ),
+    //new BalanceView(),
+    new Container(
+      child: Center(
+        child: Text('BalanceView'),
+      ),
+    ),
+    //new IngresosView(),
+    new Container(
+      child: Center(
+        child: Text('IngresosView'),
+      ),
+    ),
   ];
+
+  Widget _showTab(int index) {
+    return tab[index];
+  }
 
   void onTabTapped(int index) {
     setState(() {
@@ -35,6 +62,47 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    Widget body = _showTab(_currentIndex);
+
+    Widget scaffold = crossPlatformScaffold(
+      appBar: crossPlatformAppBar(
+        leading: Icon(FontAwesomeIcons.wallet),
+        title: Text('Gastitos'),
+        action: crossPlatformIconButton(
+          icon: Icon(FontAwesomeIcons.plus),
+          onPressed: () {
+            Navigator.pushNamed(context, '/nuevoMovimiento',
+                arguments: ToNewMovementViewArgs(_movementType));
+          },
+        ),
+      ),
+      body: body,
+    );
+
+    return scaffold;
+  }
+}
+
+
+
+
+
+/*
+Widget x_crossPlatformScaffold(
+  BuildContext context, {
+  String title,
+  Widget body,
+}) {
+  if (Platform.isIOS) {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('middle'),
+      ),
+      child: Center(
+        child: Text('Cupertino page'),
+      ),
+    );
+  } else {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.account_balance_wallet),
@@ -43,7 +111,8 @@ class _MainViewState extends State<MainView> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              Navigator.pushNamed(context, '/nuevoMovimiento', arguments: ToNewMovementViewArgs(_movementType));
+              Navigator.pushNamed(context, '/nuevoMovimiento',
+                  arguments: ToNewMovementViewArgs(_movementType));
             },
           )
         ],
@@ -69,8 +138,5 @@ class _MainViewState extends State<MainView> {
       ),
     );
   }
-
-  Widget showTab(int index) {
-    return tab[index];
-  }
 }
+*/
