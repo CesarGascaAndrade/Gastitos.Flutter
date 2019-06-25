@@ -49,7 +49,8 @@ class Repository {
   Future<List<Map<String, dynamic>>> select({
     List<String> fields = const [],
     Where where,
-    String groupFields
+    String groupFields,
+    String order
   }) async {
     var dbClient = await db;
 
@@ -75,7 +76,11 @@ class Repository {
     if(groupFields != null) {
       q += ' GROUP BY $groupFields';
     }
-    
+
+    if(order != null) {
+      q += ' ORDER BY $order';
+    }
+    print(q);
     List<Map<String, dynamic>> list = await dbClient.rawQuery(q);
 
     return list;

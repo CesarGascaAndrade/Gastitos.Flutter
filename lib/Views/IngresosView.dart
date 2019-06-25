@@ -26,7 +26,7 @@ class IngresosView extends StatelessWidget {
                         
                         return movimientoTile(viewModel.ingresos[index], () {
                           viewModel.deleteMovimiento(viewModel.ingresos[index]);
-                        });
+                        }, context);
                       },
                     );
         },

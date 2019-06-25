@@ -27,7 +27,7 @@ class EgresosView extends StatelessWidget {
                         
                         return movimientoTile(viewModel.egresos[index], () {
                           viewModel.deleteMovimiento(viewModel.egresos[index]);
-                        });
+                        }, context);
                       },
                     );
         },

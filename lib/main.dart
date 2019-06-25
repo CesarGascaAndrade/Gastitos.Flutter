@@ -30,12 +30,6 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => MainView(),
-          '/test': (context) => Scaffold(
-            appBar: AppBar(
-              title: Text('Test mode'),
-            ),
-            body: new BalanceView(),
-          ),
           '/ingresos': (context) => IngresosView(),
           '/egresos': (context) => EgresosView(),
           '/balance': (context) => BalanceView(),

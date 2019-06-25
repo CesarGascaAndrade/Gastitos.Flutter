@@ -23,7 +23,7 @@ class _MainViewState extends State<MainView> {
 
   void onTabTapped(int index) {
     setState(() {
-      if (index == 0) {
+      if (index <= 1) {
         _movementType = -1;
       } else {
         _movementType = 1;

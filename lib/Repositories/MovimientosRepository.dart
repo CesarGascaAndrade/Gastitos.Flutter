@@ -32,6 +32,7 @@ class MovimientosRepository extends Repository {
       where: Where([
         Condition(field: 'importe', value: '> 0'),
       ]),
+      order: 'fechaRegistro desc'
     );
 
     List<Movimiento> movimientos = new List<Movimiento>();
@@ -53,6 +54,7 @@ class MovimientosRepository extends Repository {
       where: Where([
         Condition(field: 'importe', value: '< 0'),
       ]),
+      order: 'fechaRegistro desc'
     );
 
     List<Movimiento> movimientos = new List<Movimiento>();
@@ -82,6 +84,7 @@ class MovimientosRepository extends Repository {
         )
       ]),
       groupFields: ' fechaRegistro, importe',
+      
     );
   }
 
@@ -99,6 +102,7 @@ class MovimientosRepository extends Repository {
         )
       ]),
       groupFields: ' fechaRegistro, importe',
+      
     );
   }
 }
