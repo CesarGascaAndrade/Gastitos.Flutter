@@ -1,10 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:gastitos/Models/Movimiento.dart';
+
 import 'package:gastitos/Models/ToNewMovementViewArgs.dart';
 import 'package:gastitos/ViewModels/MovimientosViewModel.dart';
+
+import 'package:gastitos/Views/widgets/crossPlatformAppBar.dart';
+import 'package:gastitos/Views/widgets/crossPlatformScaffold.dart';
+import 'package:gastitos/Views/widgets/crossPlatformSwitch.dart';
+import 'package:gastitos/mPlatform.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+import 'package:gastitos/Views/widgets/crossPlatformTextfield.dart';
 
 class MovimientoFormView extends StatefulWidget {
   @override
@@ -31,12 +40,67 @@ class _MovimientoFormState extends State {
   }
 
   Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: _fecha,
-      firstDate: new DateTime((_fecha.year - 1)),
-      lastDate: new DateTime.now(),
-    );
+    DateTime picked;
+    if (Platform.isIOS) {
+      showBottomSheet(
+        backgroundColor: Color.fromARGB(128, 0, 0, 0),
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: EdgeInsets.only(top: 280.0),
+            child: Container(
+              padding: EdgeInsets.all(15.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.date,
+                      initialDateTime: _fecha,
+                      maximumDate: DateTime.now(),
+                      onDateTimeChanged: (DateTime value) {
+                        setState(() {
+                          _fecha = value;
+                          fechaInput.text =
+                              value.toIso8601String().substring(0, 10);
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 15.0,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(
+                        child: CupertinoButton(
+                          color: Colors.white,
+                          child: Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.blueGrey),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      picked = await showDatePicker(
+        context: context,
+        initialDate: _fecha,
+        firstDate: new DateTime((_fecha.year - 1)),
+        lastDate: new DateTime.now(),
+      );
+    }
 
     if (picked != null && picked != _fecha) {
       setState(() {
@@ -51,22 +115,20 @@ class _MovimientoFormState extends State {
     ToNewMovementViewArgs args = ModalRoute.of(context).settings.arguments;
 
     String _movementLabel = (args.movementType > 0) ? 'ingreso' : 'egreso';
-    
-    return Scaffold(
-      appBar: AppBar(
+
+    return crossPlatformScaffold(
+      appBar: crossPlatformAppBar(
         title: Text('Nuevo $_movementLabel'),
-        actions: <Widget>[
-          Switch(
-            value: args.movementType > 0,
-            onChanged: (bool value) {
-              setState(() {
-                args.movementType = args.movementType * -1;
-              });
-            },
-            activeColor: Colors.green,
-            inactiveThumbColor: Colors.red,
-          )
-        ],
+        action: crossPlatformSwitch(
+          value: args.movementType > 0,
+          onChanged: (bool value) {
+            setState(() {
+              args.movementType = args.movementType * -1;
+            });
+          },
+          //activeColor: Colors.green,
+          //inactiveThumbColor: Colors.red,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(15.0),
@@ -80,37 +142,44 @@ class _MovimientoFormState extends State {
                   GestureDetector(
                     onTap: () {
                       _selectDate(context);
+                      print('I was Tapped!!!');
                     },
                     behavior: HitTestBehavior.opaque,
-                    child: TextFormField(
+                    child: crossPlatformTextfield(
+                      //CupertinoDatePicker(onDateTimeChanged: (DateTime value) {},
                       controller: fechaInput,
                       enabled: false,
-                      //keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(labelText: 'Fecha'),
+                      keyboardType: TextInputType.datetime,
                       validator: (value) {
                         if (value.isEmpty) {
                           return '¿Cuándo fué?';
                         }
+
+                        return true;
                       },
                     ),
                   ),
-                  TextFormField(
+                  crossPlatformTextfield(
+                    label: 'Concepto',
                     controller: conceptoInput,
-                    decoration: InputDecoration(labelText: 'Concepto'),
                     validator: (value) {
                       if (value.isEmpty) {
                         return '¿En qué gastaste?';
                       }
+
+                      return true;
                     },
                   ),
-                  TextFormField(
+                  crossPlatformTextfield(
+                    label: 'Importe',
                     controller: importeInput,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Importe'),
                     validator: (value) {
                       if (value.isEmpty) {
                         return '¿Cuánto fué?';
                       }
+
+                      return true;
                     },
                   ),
                   Center(

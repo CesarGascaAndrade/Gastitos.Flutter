@@ -73,8 +73,8 @@ class MovimientosRepository extends Repository {
   Future<List<Map<String, dynamic>>> resumenIngresos() async {
     return await select(
       fields: [
-        "strftime('%Y-%m-%d',fechaRegistro) as fechaRegistro",
-        'sum(importe) * -1 as importe',
+        "strftime('%Y-%m-%d',fechaRegistro) as fecha",
+        'sum(importe) as importe',
       ],
       where: Where([
         Condition(
@@ -83,15 +83,16 @@ class MovimientosRepository extends Repository {
               "> 0",
         )
       ]),
-      groupFields: ' fechaRegistro, importe',
+      groupFields: ' fecha, importe',
       
     );
   }
 
   Future<List<Map<String, dynamic>>> resumenEgresos() async {
-    return await select(
+    List<Map<String, dynamic>> resumen = List<Map<String, dynamic>>();
+    var movimientos = await select(
       fields: [
-        "strftime('%Y-%m-%d',fechaRegistro) as fechaRegistro",
+        "strftime('%Y-%m-%d',fechaRegistro) as fecha",
         'sum(importe) * -1 as importe',
       ],
       where: Where([
@@ -101,8 +102,31 @@ class MovimientosRepository extends Repository {
               "< 0",
         )
       ]),
-      groupFields: ' fechaRegistro, importe',
-      
+      groupFields: "fecha, importe",
     );
+
+    movimientos.forEach((m) {
+      List<Map<String, dynamic>> registros = resumen.where((e) => e['fecha'] == m['fecha']).toList();
+
+      if(registros.length > 0) {
+        for(int i = 0; i < resumen.length; i++) {
+
+          if(resumen[i]['fecha'] == m['fecha']) {
+            String fecha = m['fecha'];
+            double importe = resumen[i]['importe'] + m['importe'];
+            resumen.removeAt(i);
+            resumen.add({
+              'fecha': fecha,
+              'importe': importe
+            });
+          }
+        }
+      }
+      else {
+        resumen.add(m);
+      }
+    });
+
+    return resumen;
   }
 }

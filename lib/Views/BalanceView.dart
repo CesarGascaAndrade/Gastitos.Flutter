@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gastitos/ViewModels/MovimientosViewModel.dart';
+import 'package:gastitos/Views/widgets/crossPlatformListTile.dart';
 import 'package:gastitos/Views/widgets/graph.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -15,7 +16,7 @@ class BalanceView extends StatelessWidget {
         ) {
           return ListView(
             children: <Widget>[
-              ListTile(
+              crossPlatformListTile(
                 title: Text('Ingresos'),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -25,7 +26,7 @@ class BalanceView extends StatelessWidget {
                   ],
                 ),
               ),
-              ListTile(
+              crossPlatformListTile(
                 title: Text('Egresos'),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,

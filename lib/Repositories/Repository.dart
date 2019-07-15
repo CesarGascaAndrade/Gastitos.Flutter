@@ -80,7 +80,7 @@ class Repository {
     if(order != null) {
       q += ' ORDER BY $order';
     }
-    print(q);
+    //print(q);
     List<Map<String, dynamic>> list = await dbClient.rawQuery(q);
 
     return list;
@@ -120,7 +120,7 @@ class Repository {
       });
       q = "update $tableName set $values where $idField = ${data[idField]}";
     }
-    print(q);
+    //print(q);
     dbClient.rawQuery(q);
   }
 
@@ -129,8 +129,8 @@ class Repository {
 
     String conditions = _getConditions(where);
 
-    String q = "delete from $tableName where $conditions";
-    print(q);
+    //String q = "delete from $tableName where $conditions";
+    //print(q);
     await dbClient.delete(tableName, where: conditions);
   }
 

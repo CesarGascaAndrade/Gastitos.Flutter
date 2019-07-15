@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-void confirmDialog(BuildContext context, Function onConfirm) {
+void confirmDialog(Widget title, Widget body, Function onConfirm, BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Precaución'),
-        content: Text('Esta acción no se puede deshacer ¿Deseas confirmar?'),
+        title: title,
+        content: body,
         actions: <Widget>[
           FlatButton(
             child: Text('Elinimar'),

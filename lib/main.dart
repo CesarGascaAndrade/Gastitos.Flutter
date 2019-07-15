@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:gastitos/Repositories/MovimientosRepository.dart';
 import 'package:gastitos/Services/MovimientosService.dart';
 import 'package:gastitos/ViewModels/MovimientosViewModel.dart';
@@ -8,6 +10,8 @@ import 'package:gastitos/Views/egresosView.dart';
 import 'package:gastitos/Views/ingresosView.dart';
 import 'package:gastitos/Views/mainView.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+import 'Views/widgets/crossPlatformApp.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,18 +26,17 @@ class MyApp extends StatelessWidget {
     );
     return ScopedModel(
       model: viewModel,
-      child: MaterialApp(
+      child: crossPlatformApp(
         title: 'Gastitos',
-        theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-        ),
         initialRoute: '/',
         routes: {
           '/': (context) => MainView(),
           '/ingresos': (context) => IngresosView(),
           '/egresos': (context) => EgresosView(),
           '/balance': (context) => BalanceView(),
-          '/nuevoMovimiento' : (context) => MovimientoFormView()
+          '/nuevoMovimiento': (context) => Scaffold(
+                body: MovimientoFormView(),
+              )
         },
       ),
     );

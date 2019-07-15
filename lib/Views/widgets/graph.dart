@@ -40,11 +40,11 @@ class DateTimeComboLinePointChart extends StatelessWidget {
     final List<TimeSeriesSales> data = [];
     if (movimientos != null) {
       movimientos.forEach((movimiento) {
-        
-        if (movimiento['importe'] != null) {
+        //print(movimiento);
+        if (movimiento['importe'] != null) { 
           double importe = movimiento['importe'];
 
-          DateTime movementDate = DateTime.parse(movimiento['fechaRegistro']);
+          DateTime movementDate = DateTime.parse(movimiento['fecha']);
           
           data.add(new TimeSeriesSales(movementDate, importe.round()));
         }
