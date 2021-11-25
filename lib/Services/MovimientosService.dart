@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:gastitos/Models/Movimiento.dart';
-import 'package:gastitos/Repositories/MovimientosRepository.dart';
-import 'package:gastitos/Repositories/Repository.dart';
+import 'package:gastitos/Repository/MovimientosRepository.dart';
 
 class MovimientosService {
   MovimientosRepository repository;
@@ -26,7 +25,7 @@ class MovimientosService {
   }
 
   Future<void> save(Movimiento movimiento) async {
-    Map<String, dynamic> registro = {
+    Map<String, Object> registro = {
       'id': movimiento.id,
       'concepto': movimiento.concepto,
       'importe': movimiento.importe,
@@ -45,9 +44,6 @@ class MovimientosService {
   }
 
   Future<void> delete(Movimiento movimiento) async {
-    await this.repository.delete(Where([
-          Condition(
-              field: this.repository.idField, value: "= ${movimiento.id.toString()}")
-        ]));
+    await this.repository.delete(movimiento.id);
   }
 }

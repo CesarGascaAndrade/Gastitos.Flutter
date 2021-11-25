@@ -1,16 +1,16 @@
-//import 'dart:io';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../mPlatform.dart';
-
 import 'package:flutter/widgets.dart';
 
-Widget crossPlatformAppBar({
-  Widget leading,
-  Widget title,
-  Widget action,
+crossPlatformAppBar({
+  required Widget leading,
+  required Widget title,
+  required Widget action,
 }) {
+  print(Platform.isIOS);
   if (Platform.isIOS) {
     return CupertinoNavigationBar(
       leading: leading,

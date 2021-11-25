@@ -1,11 +1,13 @@
-//import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:gastitos/mPlatform.dart';
-
-Widget crossPlatformNavigationBar({List<BottomNavigationBarItem> items, Function onTap, int currentIndex}) {
+Widget crossPlatformNavigationBar({
+  required List<BottomNavigationBarItem> items,
+  required Function(int) onTap,
+  required int currentIndex,
+}) {
   if (Platform.isIOS) {
     return CupertinoTabBar(
       currentIndex: currentIndex,

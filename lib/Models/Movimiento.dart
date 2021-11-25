@@ -4,8 +4,12 @@ class Movimiento {
   double importe;
   String fechaRegistro;
 
-  Movimiento({this.id, this.concepto, this.importe, this.fechaRegistro}) {
-    if (fechaRegistro == null) {
+  Movimiento(
+      {this.id = 0,
+      this.concepto = '',
+      this.importe = 0,
+      this.fechaRegistro = ''}) {
+    if (fechaRegistro == '') {
       fechaRegistro = new DateTime.now().toIso8601String();
     }
   }

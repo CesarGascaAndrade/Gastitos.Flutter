@@ -1,15 +1,15 @@
-//import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:gastitos/mPlatform.dart';
-
-Widget crossPlatformWidget({bool value, Function onChanged}) {
+Widget crossPlatformWidget({
+  bool value = true,
+  required Function onChanged,
+}) {
   if (Platform.isIOS) {
     return Container();
-  }
-  else {
+  } else {
     return Container();
   }
 }

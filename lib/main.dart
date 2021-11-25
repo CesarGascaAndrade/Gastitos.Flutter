@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:gastitos/Repositories/MovimientosRepository.dart';
+import 'package:gastitos/Repository/MovimientosRepository.dart';
 import 'package:gastitos/Services/MovimientosService.dart';
 import 'package:gastitos/ViewModels/MovimientosViewModel.dart';
 import 'package:gastitos/Views/MovimientoFormView.dart';

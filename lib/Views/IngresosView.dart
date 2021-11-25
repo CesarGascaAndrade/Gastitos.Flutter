@@ -9,8 +9,8 @@ class IngresosView extends StatelessWidget {
     return Center(
       child: ScopedModelDescendant(
         builder: (
-          BuildContext context,
-          Widget child,
+          context,
+          child,
           MovimientosViewModel viewModel,
         ) {
           return viewModel.ingresos == null
@@ -23,7 +23,6 @@ class IngresosView extends StatelessWidget {
                         BuildContext context,
                         int index,
                       ) {
-                        
                         return movimientoTile(viewModel.ingresos[index], () {
                           viewModel.deleteMovimiento(viewModel.ingresos[index]);
                         }, context);

@@ -1,11 +1,13 @@
-//import 'dart:io';
-import 'package:gastitos/mPlatform.dart';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget crossPlatformApp(
-    {String title, String initialRoute, Map<String, WidgetBuilder> routes}) {
+Widget crossPlatformApp({
+  String title = 'Titulo',
+  String initialRoute = '/',
+  Map<String, WidgetBuilder> routes = const {},
+}) {
   if (Platform.isIOS) {
     return CupertinoApp(
       title: title,
@@ -23,7 +25,7 @@ Widget crossPlatformApp(
   }
 }
 
-crossThemeData({Color primaryColor: Colors.blueGrey}) {
+crossThemeData({MaterialColor primaryColor: Colors.blueGrey}) {
   if (Platform.isIOS) {
     return CupertinoThemeData(
       primaryColor: primaryColor,

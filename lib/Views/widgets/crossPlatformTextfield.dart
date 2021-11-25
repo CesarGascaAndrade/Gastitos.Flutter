@@ -1,16 +1,14 @@
-//import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:gastitos/mPlatform.dart';
-
 Widget crossPlatformTextfield({
-  String label,
-  TextEditingController controller,
+  String? label,
+  TextEditingController? controller,
   TextInputType keyboardType = TextInputType.text,
-  InputDecoration decoration,
-  Function validator,
+  InputDecoration? decoration,
+  required Function(String) validator,
   bool enabled = true,
 }) {
   if (Platform.isIOS) {
@@ -26,7 +24,7 @@ Widget crossPlatformTextfield({
       controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(labelText: label),
-      validator: validator,
+      //validator: validator,
       enabled: enabled,
     );
   }

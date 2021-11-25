@@ -1,11 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:gastitos/mPlatform.dart';
 
 Widget crossPlatformListTile({
-  Widget leading,
-  Widget title,
-  Widget subtitle,
-  Widget trailing,
+  required Widget leading,
+  required Widget title,
+  required Widget subtitle,
+  required Widget trailing,
 }) {
   if (Platform.isIOS) {
     List<Widget> elements = [];

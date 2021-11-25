@@ -5,7 +5,7 @@ import 'package:gastitos/Services/MovimientosService.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MovimientosViewModel extends Model {
-  MovimientosService service;
+  late MovimientosService service;
 
   MovimientosViewModel(MovimientosService service) {
     this.service = service;
@@ -15,15 +15,16 @@ class MovimientosViewModel extends Model {
 
   double _totalIngresos = 0;
   double _totalEgresos = 0;
-  List<Movimiento> ingresos;
-  List<Movimiento> egresos;
-  List<Map<String, dynamic>> listIngresos;
-  List<Map<String, dynamic>> listEgresos;
+
+  late List<Movimiento> ingresos;
+  late List<Movimiento> egresos;
+  late List<Map<String, dynamic>> listIngresos;
+  late List<Map<String, dynamic>> listEgresos;
 
   get totalIngresos {
     return _totalIngresos.toStringAsFixed(2);
   }
-  
+
   get totalEgresos {
     return _totalEgresos.toStringAsFixed(2);
   }
@@ -41,7 +42,6 @@ class MovimientosViewModel extends Model {
 
     _totalEgresos = 0;
     egresos.forEach((Movimiento movimiento) {
-      
       _totalEgresos += movimiento.importe;
     });
 
@@ -51,7 +51,7 @@ class MovimientosViewModel extends Model {
   Future<void> saveMovimiento(Movimiento movimiento) async {
     await service.save(movimiento);
     await loadMovimientos();
-     
+
     notifyListeners();
   }
 

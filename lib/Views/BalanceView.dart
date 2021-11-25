@@ -10,14 +10,16 @@ class BalanceView extends StatelessWidget {
     return Center(
       child: ScopedModelDescendant(
         builder: (
-          BuildContext context,
-          Widget child,
+          context,
+          child,
           MovimientosViewModel viewModel,
         ) {
           return ListView(
             children: <Widget>[
               crossPlatformListTile(
                 title: Text('Ingresos'),
+                subtitle: Text(''),
+                leading: Icon(Icons.access_alarm),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -28,6 +30,8 @@ class BalanceView extends StatelessWidget {
               ),
               crossPlatformListTile(
                 title: Text('Egresos'),
+                subtitle: Text(''),
+                leading: Icon(Icons.access_alarm),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -36,14 +40,16 @@ class BalanceView extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: SizedBox(
                   height: 200,
-                  child: new DateTimeComboLinePointChart.withListData(viewModel.listEgresos)
+                  child: new DateTimeComboLinePointChart.withListData(
+                    viewModel.listEgresos,
+                  ),
                   //child: new DateTimeComboLinePointChart.withSampleData()
                 ),
-              ),
+              ),*/
             ],
           );
         },

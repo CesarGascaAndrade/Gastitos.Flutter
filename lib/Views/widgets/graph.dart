@@ -13,10 +13,10 @@ import 'package:flutter/material.dart';
 /// the same color as the line.
 
 class DateTimeComboLinePointChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
+  final List<charts.Series<dynamic, DateTime>> seriesList;
   final bool animate;
 
-  DateTimeComboLinePointChart(this.seriesList, {this.animate});
+  DateTimeComboLinePointChart(this.seriesList, {required this.animate});
 
   /// Creates a [TimeSeriesChart] with sample data and no transition.
   factory DateTimeComboLinePointChart.withSampleData() {
@@ -27,13 +27,10 @@ class DateTimeComboLinePointChart extends StatelessWidget {
     );
   }
 
-  
-
   factory DateTimeComboLinePointChart.withListData(
       List<Map<String, dynamic>> data) {
     return new DateTimeComboLinePointChart(_fromList(data), animate: true);
   }
-
 
   static List<charts.Series<TimeSeriesSales, DateTime>> _fromList(
       List<Map<String, dynamic>> movimientos) {
@@ -41,14 +38,14 @@ class DateTimeComboLinePointChart extends StatelessWidget {
     if (movimientos != null) {
       movimientos.forEach((movimiento) {
         //print(movimiento);
-        if (movimiento['importe'] != null) { 
+        if (movimiento['importe'] != null) {
           double importe = movimiento['importe'];
 
           DateTime movementDate = DateTime.parse(movimiento['fecha']);
-          
+
           data.add(new TimeSeriesSales(movementDate, importe.round()));
         }
-      }); 
+      });
     }
 
     return [

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gastitos/Models/Movimiento.dart';
 
 import 'package:gastitos/Models/ToNewMovementViewArgs.dart';
@@ -10,7 +12,6 @@ import 'package:gastitos/ViewModels/MovimientosViewModel.dart';
 import 'package:gastitos/Views/widgets/crossPlatformAppBar.dart';
 import 'package:gastitos/Views/widgets/crossPlatformScaffold.dart';
 import 'package:gastitos/Views/widgets/crossPlatformSwitch.dart';
-import 'package:gastitos/mPlatform.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:gastitos/Views/widgets/crossPlatformTextfield.dart';
@@ -40,7 +41,7 @@ class _MovimientoFormState extends State {
   }
 
   Future<Null> _selectDate(BuildContext context) async {
-    DateTime picked;
+    var picked;
     if (Platform.isIOS) {
       showBottomSheet(
         backgroundColor: Color.fromARGB(128, 0, 0, 0),
@@ -112,12 +113,14 @@ class _MovimientoFormState extends State {
 
   @override
   Widget build(BuildContext context) {
-    ToNewMovementViewArgs args = ModalRoute.of(context).settings.arguments;
+    ToNewMovementViewArgs args =
+        ModalRoute.of(context)!.settings.arguments as ToNewMovementViewArgs;
 
     String _movementLabel = (args.movementType > 0) ? 'ingreso' : 'egreso';
 
     return crossPlatformScaffold(
       appBar: crossPlatformAppBar(
+        leading: Icon(FontAwesomeIcons.wallet),
         title: Text('Nuevo $_movementLabel'),
         action: crossPlatformSwitch(
           value: args.movementType > 0,
@@ -185,14 +188,14 @@ class _MovimientoFormState extends State {
                   Center(
                     child: ScopedModelDescendant(
                       builder: (
-                        BuildContext context,
-                        Widget child,
+                        context,
+                        child,
                         MovimientosViewModel viewModel,
                       ) {
                         return RaisedButton(
                           child: Text('Guardar'),
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               // If the form is valid, display a snackbar. In the real world, you'd
                               // often want to call a server or save the information in a database
                               Scaffold.of(context).showSnackBar(

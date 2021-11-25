@@ -10,8 +10,8 @@ class EgresosView extends StatelessWidget {
     return Center(
       child: ScopedModelDescendant(
         builder: (
-          BuildContext context,
-          Widget child,
+          context,
+          child,
           MovimientosViewModel viewModel,
         ) {
           return viewModel.egresos == null
@@ -24,7 +24,6 @@ class EgresosView extends StatelessWidget {
                         BuildContext context,
                         int index,
                       ) {
-                        
                         return movimientoTile(viewModel.egresos[index], () {
                           viewModel.deleteMovimiento(viewModel.egresos[index]);
                         }, context);
